@@ -6,12 +6,14 @@ interface OpenShopNoticeModalProps {
   shop: ShopOwner | null;
   isOpen: boolean;
   onClose: () => void;
+  onLaunchShop?: (shop: ShopOwner) => void;
 }
 
 export const OpenShopNoticeModal: React.FC<OpenShopNoticeModalProps> = ({
   shop,
   isOpen,
-  onClose
+  onClose,
+  onLaunchShop
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -84,14 +86,27 @@ export const OpenShopNoticeModal: React.FC<OpenShopNoticeModalProps> = ({
             <span>Dedicated isolated database tenant mapped to this URL.</span>
           </div>
 
-          <div className="flex justify-end pt-2">
+          <div className="flex items-center justify-between pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-colors shadow-xs"
+              className="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
             >
-              Back to Admin
+              Close
             </button>
+            {onLaunchShop && (
+              <button
+                type="button"
+                onClick={() => {
+                  onLaunchShop(shop);
+                  onClose();
+                }}
+                className="px-5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-xs flex items-center gap-1.5"
+              >
+                <span>Launch {shop.subdomain}.zetaven.com</span>
+                <Globe className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
         </div>
       </div>

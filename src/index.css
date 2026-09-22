@@ -12,3 +12,52 @@
     font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
   }
 }
+
+/* ==========================================================
+   PRINT SPECIFIC CSS — A4, Desktop, and Thermal Receipt Printing
+   ========================================================== */
+@media print {
+  /* Hide the entire webpage by default */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Make only the invoice container and its contents visible */
+  #printable-invoice,
+  #printable-invoice * {
+    visibility: visible;
+  }
+
+  /* Position invoice neatly at top left of paper */
+  #printable-invoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    color: #0f172a !important;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  /* Hide backdrop, action buttons, close icons and navigation */
+  .no-print,
+  button,
+  nav,
+  header,
+  aside,
+  footer {
+    display: none !important;
+  }
+
+  @page {
+    margin: 8mm;
+    size: auto;
+  }
+}

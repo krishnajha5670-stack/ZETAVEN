@@ -21,9 +21,14 @@ import { ShopOwner } from '../types';
 interface LandingPageProps {
   onLoginSuccess: () => void;
   shops: ShopOwner[];
+  onLaunchShopSubdomain?: (shop: ShopOwner) => void;
 }
 
-export const LandingPage: React.FC<LandingPageProps> = ({ onLoginSuccess, shops }) => {
+export const LandingPage: React.FC<LandingPageProps> = ({ 
+  onLoginSuccess, 
+  shops,
+  onLaunchShopSubdomain 
+}) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginIdentifier, setLoginIdentifier] = useState('admin@zetaven.com');
   const [password, setPassword] = useState('admin123');
@@ -249,25 +254,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginSuccess, shops 
                     </div>
 
                     <div className="space-y-2">
-                      <div className="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700 flex items-center justify-between">
-                        <div>
-                          <div className="text-xs font-bold text-white">Balaji Supermarket</div>
-                          <div className="text-[11px] font-mono text-blue-400">balaji.zetaven.com</div>
+                      {shops.slice(0, 3).map((s) => (
+                        <div 
+                          key={s.id}
+                          onClick={() => onLaunchShopSubdomain && onLaunchShopSubdomain(s)}
+                          className="bg-slate-800/80 hover:bg-slate-700/90 cursor-pointer p-2.5 rounded-xl border border-slate-700 flex items-center justify-between transition-colors group"
+                        >
+                          <div>
+                            <div className="text-xs font-bold text-white group-hover:text-blue-300 transition-colors">
+                              {s.shopName}
+                            </div>
+                            <div className="text-[11px] font-mono text-blue-400">
+                              {s.subdomain}.zetaven.com
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold rounded-md border border-emerald-500/30">
+                              Active
+                            </span>
+                            <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors" />
+                          </div>
                         </div>
-                        <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold rounded-md border border-emerald-500/30">
-                          Active
-                        </span>
-                      </div>
-
-                      <div className="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700 flex items-center justify-between">
-                        <div>
-                          <div className="text-xs font-bold text-white">Sharma General Store</div>
-                          <div className="text-[11px] font-mono text-blue-400">sharma-general-store.zetaven.com</div>
-                        </div>
-                        <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold rounded-md border border-emerald-500/30">
-                          Active
-                        </span>
-                      </div>
+                      ))}
                     </div>
                   </div>
 
